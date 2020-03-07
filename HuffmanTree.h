@@ -11,60 +11,62 @@
 #include <memory>
 #include <string>
 #include <vector>
-namespace TLDEDA001{
-class HuffmanTree {
+#include <unordered_map>
+namespace TLDEDA001
+{
+class HuffmanTree
+{
 
     std::shared_ptr<HuffmanNode> root;
 
 public:
+    //Constructor
+    HuffmanTree() {}
 
-//Constructor
-HuffmanTree(){}
-
-//Destructor
-~HuffmanTree(){
-
-}
-
-
-//Copy Constructor
-HuffmanTree(HuffmanTree & rhs){
-    
-    this->root = rhs.root;
-}
-
-//Move Constructor
-HuffmanTree(HuffmanTree && rhs){
-  
-   this->root = std::move(rhs.root);
-  
-}
-
-//Assignment Operator
-HuffmanTree& operator=(const HuffmanTree & rhs){
-    if (this == &rhs)
+    //Destructor
+    ~HuffmanTree()
     {
-       return *this;
     }
-    this->root = rhs.root;
-    
-}
 
-//Move Assignment Operator
-HuffmanTree & operator =(HuffmanTree && rhs){
-    if (this!=&rhs)
+    //Copy Constructor
+    HuffmanTree(HuffmanTree &rhs)
     {
-       this->root = std::move(rhs.root);
-     
+
+        this->root = rhs.root;
     }
-    return *this;
-}
 
+    //Move Constructor
+    HuffmanTree(HuffmanTree &&rhs)
+    {
 
+        this->root = std::move(rhs.root);
+    }
 
+    //Assignment Operator
+    HuffmanTree &operator=(const HuffmanTree &rhs)
+    {
+        if (this == &rhs)
+        {
+            return *this;
+        }
+        this->root = rhs.root;
+    }
 
+    //Move Assignment Operator
+    HuffmanTree &operator=(HuffmanTree &&rhs)
+    {
+        if (this != &rhs)
+        {
+            this->root = std::move(rhs.root);
+        }
+        return *this;
+    }
 
+    //Build Tree method
+    void BuildHuffmanTree(std::unordered_map<char,int> datafreq);
+
+   
 };
 
-}
+} // namespace TLDEDA001
 #endif //ASSIGNMENT3_HUFFMANTREE_H
