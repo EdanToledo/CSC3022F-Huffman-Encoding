@@ -15,13 +15,20 @@ TLDEDA001::HuffmanNode::HuffmanNode(char inputdata, int inputfreq)
 }
 
 //Destructor
-TLDEDA001::HuffmanNode::~HuffmanNode() {}
+TLDEDA001::HuffmanNode::~HuffmanNode()
+{
+    left = nullptr;
+    right = nullptr;
+    freq = -1;
+}
 
 //Copy Constructor
-TLDEDA001::HuffmanNode::HuffmanNode(HuffmanNode &rhs)
+TLDEDA001::HuffmanNode::HuffmanNode(const HuffmanNode &rhs)
 {
     this->left = rhs.left;
     this->right = rhs.right;
+    this->data = rhs.data;
+    this->freq = rhs.freq;
 }
 
 //Move Constructor
@@ -29,55 +36,72 @@ TLDEDA001::HuffmanNode::HuffmanNode(HuffmanNode &&rhs)
 {
     this->left = (std::move(rhs.left));
     this->right = (std::move(rhs.right));
+    this->data = (std::move(rhs.data));
+    this->freq = (std::move(rhs.freq));
 }
 
 //Assignment Operator
-    TLDEDA001::HuffmanNode TLDEDA001::HuffmanNode::operator=(const HuffmanNode &rhs)
+TLDEDA001::HuffmanNode &TLDEDA001::HuffmanNode::operator=(const HuffmanNode &rhs)
+{
+    if (this == &rhs)
     {
-        if (this == &rhs)
-        {
-            return *this;
-        }
-        this->left = rhs.left;
-        this->right = rhs.right;
-    }
-
-//Move Assignment Operator
-     TLDEDA001::HuffmanNode& TLDEDA001::HuffmanNode::operator=(HuffmanNode &&rhs)
-    {
-        if (this != &rhs)
-        {
-            this->left = std::move(rhs.left);
-            this->right = std::move(rhs.right);
-        }
         return *this;
     }
+    this->left = rhs.left;
+    this->right = rhs.right;
+    this->data = rhs.data;
+    this->freq = rhs.freq;
+}
 
-//less than operator 
-    bool TLDEDA001::HuffmanNode::operator<( HuffmanNode & rhs){
-        if (this->freq<rhs.freq)
-        {
-            return true;
-        }else{
-            return false;
-        }
-        
-    }
-
-//comparison method
-bool TLDEDA001::HuffmanNode::compare(HuffmanNode &a, HuffmanNode &b)
+//Move Assignment Operator
+TLDEDA001::HuffmanNode &TLDEDA001::HuffmanNode::operator=(HuffmanNode &&rhs)
 {
+    if (this != &rhs)
+    {
+        this->left = std::move(rhs.left);
+        this->right = std::move(rhs.right);
+        this->data = (std::move(rhs.data));
+        this->freq = (std::move(rhs.freq));
+    }
+    return *this;
+}
 
-    return (a<b);
+//Binary Operator
+bool TLDEDA001::operator<(const HuffmanNode &lhs, const HuffmanNode &rhs)
+{
+    return !(lhs.freq < rhs.freq);
 }
 
 //Getter of Frequency
-const int TLDEDA001::HuffmanNode::getFreq()
+int TLDEDA001::HuffmanNode::getFreq() const
 {
     return this->freq;
 }
+//Setter of Left child
+void TLDEDA001::HuffmanNode::setLeft(HuffmanNode &lhs)
+{
+
+    left = std::make_shared<HuffmanNode>(lhs);
+}
+
+//Setter of Right child
+void TLDEDA001::HuffmanNode::setRight(HuffmanNode &rhs)
+{
+    right = std::make_shared<HuffmanNode>(rhs);
+}
 //Getter of Data
-const char TLDEDA001::HuffmanNode::getData()
+char TLDEDA001::HuffmanNode::getData() const
 {
     return this->data;
 }
+
+//Setter of Frequency
+void TLDEDA001::HuffmanNode::setFreq(int val)
+{
+    this->freq = val;
+}
+
+//Setter of Data
+   void TLDEDA001::HuffmanNode::setData(char dat){
+        this->data = dat;
+   }

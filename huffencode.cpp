@@ -8,13 +8,15 @@
 #include <vector>
 #include <unordered_map>
 #include <fstream>
+#include "HuffmanTree.h"
+#include "HuffmanNode.h"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
 
-    if (argc < 3 || argc > 3)
+    if (argc <= 2 || argc >= 4)
     {
         cout << "Not enough arguments were entered" << endl;
         return 0;
@@ -29,6 +31,7 @@ int main(int argc, char *argv[])
     string line;
     while (getline(inputstream,line))
     {
+        
        for (int i = 0; i < line.length(); i++)
        {
 
@@ -44,8 +47,13 @@ int main(int argc, char *argv[])
         
     }
     
+    
 
-
+    TLDEDA001::HuffmanTree huff;
+     
+    huff.BuildHuffmanTree(freq);
+    
+ 
 
     return 0;
 }

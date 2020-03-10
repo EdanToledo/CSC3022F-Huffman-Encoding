@@ -28,33 +28,45 @@ public:
     //Parameter Constructor
     HuffmanNode(char inputdata, int inputfreq);
 
+  
     //Destructor
     ~HuffmanNode();
 
     //Copy Constructor
-    HuffmanNode(HuffmanNode &rhs);
+    HuffmanNode(const HuffmanNode &rhs);
 
     //Move Constructor
     HuffmanNode(HuffmanNode &&rhs);
 
     //Assignment Operator
-    HuffmanNode operator=(const HuffmanNode &rhs);
+    HuffmanNode& operator=(const HuffmanNode &rhs);
 
     //Move Assignment Operator
     HuffmanNode &operator=(HuffmanNode &&rhs);
 
-    //less than operator
-    bool operator<(HuffmanNode &rhs);
+    //binary operator overloading
+    friend bool operator<(const HuffmanNode & lhs, const HuffmanNode & rhs);
 
-    //comparison method
-    bool compare(HuffmanNode &a, HuffmanNode &b);
+    //Setter of Left child
+    void setLeft(HuffmanNode & lhs);
+    
+    //Setter of Right child
+    void setRight(HuffmanNode & rhs);
+   
+   //Setter of Frequency
+   void setFreq(int val);
+
+   //Setter of Data
+   void setData(char dat);
 
 //getter method of freq
-    const int getFreq();
+     int getFreq()const;
 
 //getter method of data
-    const char getData();
+     char getData()const;
 };
+
+
 
 } // namespace TLDEDA001
 

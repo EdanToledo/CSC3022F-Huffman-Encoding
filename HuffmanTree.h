@@ -20,47 +20,25 @@ class HuffmanTree
     std::shared_ptr<HuffmanNode> root;
 
 public:
+
     //Constructor
-    HuffmanTree() {}
+    HuffmanTree();
 
     //Destructor
-    ~HuffmanTree()
-    {
-    }
+    ~HuffmanTree();
 
     //Copy Constructor
-    HuffmanTree(HuffmanTree &rhs)
-    {
+    HuffmanTree(const HuffmanTree &rhs);
 
-        this->root = rhs.root;
-    }
 
     //Move Constructor
-    HuffmanTree(HuffmanTree &&rhs)
-    {
-
-        this->root = std::move(rhs.root);
-    }
+    HuffmanTree(HuffmanTree &&rhs);
 
     //Assignment Operator
-    HuffmanTree &operator=(const HuffmanTree &rhs)
-    {
-        if (this == &rhs)
-        {
-            return *this;
-        }
-        this->root = rhs.root;
-    }
+    HuffmanTree &operator=(const HuffmanTree &rhs);
 
     //Move Assignment Operator
-    HuffmanTree &operator=(HuffmanTree &&rhs)
-    {
-        if (this != &rhs)
-        {
-            this->root = std::move(rhs.root);
-        }
-        return *this;
-    }
+    HuffmanTree &operator=(HuffmanTree &&rhs);
 
     //Build Tree method
     void BuildHuffmanTree(std::unordered_map<char,int> datafreq);
