@@ -18,6 +18,11 @@ class HuffmanTree
 {
 
     std::shared_ptr<HuffmanNode> root;
+    std::unordered_map<char,std::string> codeTable;
+
+    //traverse tree and assign codes to nodes
+    void traverse(std::shared_ptr<TLDEDA001::HuffmanNode> currentnode,std::string code);
+   
 
 public:
 
@@ -43,7 +48,17 @@ public:
     //Build Tree method
     void BuildHuffmanTree(std::unordered_map<char,int> datafreq);
 
-   
+    //Build Code Table into hashmap
+    void BuildCodeTable();
+
+    
+   //Getter method for root
+   std::shared_ptr<HuffmanNode> getRoot();
+
+    //Print out code table
+    void printCode();
+
+
 };
 
 } // namespace TLDEDA001

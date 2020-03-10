@@ -28,22 +28,10 @@ int main(int argc, char *argv[])
     outputfile = (string)argv[2];
 
     ifstream inputstream(inputfile);
-    string line;
-    while (getline(inputstream,line))
+    char charac;
+    while (inputstream.get(charac))
     {
-        
-       for (int i = 0; i < line.length(); i++)
-       {
-
-           if (freq.find(line.at(i))==freq.end())
-           {
-              std::pair<char,int> mypair(line.at(i),1);
-               freq.insert(mypair);
-           }else{
-                freq.at(line.at(i)) += 1;
-           }
-        
-       }
+       freq[charac] = freq[charac]+1;
         
     }
     
@@ -52,8 +40,8 @@ int main(int argc, char *argv[])
     TLDEDA001::HuffmanTree huff;
      
     huff.BuildHuffmanTree(freq);
+    huff.BuildCodeTable();
+    huff.printCode();
     
- 
-
     return 0;
 }

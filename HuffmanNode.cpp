@@ -5,7 +5,10 @@
 #include "HuffmanNode.h"
 
 //Default Constructor
-TLDEDA001::HuffmanNode::HuffmanNode() {}
+TLDEDA001::HuffmanNode::HuffmanNode() {
+    this->left = nullptr;
+    this->right = nullptr;
+}
 
 //Parameter Constructor
 TLDEDA001::HuffmanNode::HuffmanNode(char inputdata, int inputfreq)
@@ -102,6 +105,19 @@ void TLDEDA001::HuffmanNode::setFreq(int val)
 }
 
 //Setter of Data
-   void TLDEDA001::HuffmanNode::setData(char dat){
-        this->data = dat;
-   }
+void TLDEDA001::HuffmanNode::setData(char dat)
+{
+    this->data = dat;
+}
+
+//getter method of left
+std::shared_ptr<TLDEDA001::HuffmanNode> TLDEDA001::HuffmanNode::getLeft()
+{
+    return this->left;
+}
+
+//getter method of right
+std::shared_ptr<TLDEDA001::HuffmanNode> TLDEDA001::HuffmanNode::getRight()
+{
+    return this->right;
+}

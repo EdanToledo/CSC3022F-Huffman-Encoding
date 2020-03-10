@@ -64,6 +64,12 @@ public:
 
 //getter method of data
      char getData()const;
+
+     //getter method of left
+     std::shared_ptr<HuffmanNode> getLeft();
+
+//getter method of right
+      std::shared_ptr<HuffmanNode>  getRight();
 };
 
 
