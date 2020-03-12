@@ -58,8 +58,29 @@ public:
     //Print out code table
     void printCode();
 
+    //output code table to header
+    void outputHeader(std::string outputfile);
 
-};
+
+    //output bitstring  file
+    void OutputBitStringFile(std::string inputfile,std::string outputfile);
+    
+    //Bitpack bitstring file
+    void BitpackFile(std::string bitstringfile, std::string outputfilename);
+    
+    //Unpack bitpacked file
+    void UnpackFile(std::string bitpackedfile, std::string outputfilename);
+
+    //compress file
+    void Compress(std::string InputFileName, std::string OutputFileName);
+
+    //decompress file
+    void Decompress(std::string InputFileName, std::string OutputFileName);
+
+    //Decode bitstring into original file
+    void Decode(std::string bitstring,std::string outputfile);
+   
+    };
 
 } // namespace TLDEDA001
 #endif //ASSIGNMENT3_HUFFMANTREE_H

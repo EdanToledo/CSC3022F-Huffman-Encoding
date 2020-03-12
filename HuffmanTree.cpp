@@ -2,10 +2,19 @@
 // Created by edan on 2020/03/07.
 //
 
-#include "HuffmanTree.h"
-#include <queue>
-#include "HuffmanNode.h"
+#include <algorithm>
+#include <iostream>
+#include <memory>
+#include <string>
 #include <vector>
+#include <unordered_map>
+#include <fstream>
+#include "HuffmanTree.h"
+#include "HuffmanNode.h"
+#include <queue>
+#include <bits/stdc++.h> 
+
+
 
 //Default Constructor
 TLDEDA001::HuffmanTree::HuffmanTree()
@@ -100,6 +109,7 @@ void TLDEDA001::HuffmanTree::BuildHuffmanTree(std::unordered_map<char, int> data
     queue.pop();
 }
 
+//build code table starting from root of tree
 void TLDEDA001::HuffmanTree::BuildCodeTable(){
 
 
@@ -107,6 +117,7 @@ void TLDEDA001::HuffmanTree::BuildCodeTable(){
 
 }
 
+//recursive traverse method to build code table
 void TLDEDA001::HuffmanTree::traverse(std::shared_ptr<TLDEDA001::HuffmanNode> currentnode,std::string code){
 
 std::string currCode = code;
@@ -115,20 +126,17 @@ if (currentnode.get() == nullptr) {
         return; }
     
     
-    /* first recur on left child */
     traverse(currentnode->getLeft(),currCode+"0"); 
-   
-    /* then print the data of node */
+    
+    if (currentnode->getLeft() == nullptr && currentnode->getRight()==nullptr){
+ 
     codeTable[currentnode->getData()] = currCode;
   
-  
-    /* now recur on right child */
-    traverse(currentnode->getRight(),currCode+"1"); 
-
+    }
     
+   
+    traverse(currentnode->getRight(),currCode+"1");  
     
-    
-
 } 
 
    //Getter method for root
@@ -136,7 +144,7 @@ if (currentnode.get() == nullptr) {
        return this->root;
    }
 
-
+//print code table to console
 void TLDEDA001::HuffmanTree::printCode(){
     for (std::pair<char, std::string> element : codeTable)
     {
@@ -145,8 +153,146 @@ void TLDEDA001::HuffmanTree::printCode(){
     }
 }
 
+//outputs header file with relevant bit prefixes
+void TLDEDA001::HuffmanTree::outputHeader(std::string outputfile){
+   std::ofstream out(outputfile+".hdr");
+    out<<codeTable.size()<<std::endl;
+ for (std::pair<char, std::string> element : codeTable)
+    {
+       out<<element.first<<" "<<element.second<<std::endl;
+    }
+    out.close();
+   
+}
+
+//Outputs bit string file from ascii file
+void TLDEDA001::HuffmanTree::OutputBitStringFile(std::string inputfile,std::string outputfile){
+
+    std::string bitstring;
+
+    std::ifstream inputstream(inputfile);
+    char charac;
+    
+    while (inputstream.get(charac))
+    {
+       bitstring+=codeTable[charac];
+        
+    }
+
+  std::ofstream out(outputfile,std::ios::out | std::ios::binary);
+  
+  out.write(bitstring.c_str(),bitstring.size());
+  out.close();
+
+}
+
+//Bit pack file from an input file of bit strings
+ void TLDEDA001::HuffmanTree::BitpackFile(std::string bitstringfile, std::string outputfilename){
+
+    std::ifstream inputstream(bitstringfile);
+   
+    std::string bitstring;
+    char bit;
+   
+    while (inputstream.get(bit))
+    {
+     bitstring+=bit;
+    }
+ 
+  
+ std::ofstream out(outputfilename+".bin",std::ios::out | std::ios::binary);
+
+  while (bitstring.size()>8)
+  {
+      std::bitset<8> bitset(bitstring.substr(0,8));
+      int ulong = bitset.to_ulong();
+      char val = (char)ulong;
+     out<<val;
+    
+     bitstring = bitstring.substr(8);
+     
+  }
+
+  for (int i = bitstring.size(); i < 8; i++)
+  {
+      bitstring+='0';
+  }
+  
+    std::bitset<8> bitset(bitstring);
+    int ulong = bitset.to_ulong();
+    char val = (char)ulong;
+    out<<val;
+    out.close();
+
+    
+ }
+
+//unpack bitpacked file into bitstring file
+void TLDEDA001::HuffmanTree::UnpackFile(std::string bitpackedfile, std::string outputfilename){
+
+std::ifstream inputstream(bitpackedfile);
+
+    std::ofstream out(outputfilename,std::ios::out | std::ios::binary);
+
+    std::string bitstring;
+    char byte;
+   
+    while (inputstream.get(byte))
+    {
+      std::bitset<8> bitset(byte);
+     
+         out<<bitset.to_string();
+     
+    }
 
 
+}
+
+void TLDEDA001::HuffmanTree::Decode(std::string bitstringfile,std::string outputfile){
+
+    std::unordered_map<std::string,char> reverse;
+
+    for (std::pair<char, std::string> element : codeTable)
+    {
+       reverse[element.second]=element.first;
+    }
 
 
+std::ifstream inputstream(bitstringfile);
+   
+    std::ofstream out(outputfile);
 
+    std::string bitstring;
+    char val;
+   std::string cur="";
+    while (inputstream.get(val))
+    {
+        cur +=val;
+        if (reverse.count(cur))
+        {
+            out<<reverse[cur];
+            cur="";
+        }
+    }
+
+    out.close();
+}
+   
+
+    //compress file - .bin is the compressed file, the outputfile without the extension is the unpacked file
+    void TLDEDA001::HuffmanTree::Compress(std::string InputFileName, std::string OutputFileName){
+    BuildCodeTable();
+    outputHeader(OutputFileName);
+    OutputBitStringFile(InputFileName,OutputFileName);
+    BitpackFile(OutputFileName,OutputFileName);
+    remove(OutputFileName.c_str());
+    }
+
+    //decompress file
+    void TLDEDA001::HuffmanTree::Decompress(std::string InputFileName, std::string OutputFileName){
+
+         
+        UnpackFile(InputFileName,OutputFileName);
+        Decode(OutputFileName,OutputFileName+"_Uncompressed");
+        remove(OutputFileName.c_str());
+    }
