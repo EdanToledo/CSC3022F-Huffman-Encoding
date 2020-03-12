@@ -199,8 +199,9 @@ void TLDEDA001::HuffmanTree::OutputBitStringFile(std::string inputfile,std::stri
      bitstring+=bit;
     }
  
-  
+  int bitslength = bitstring.size();
  std::ofstream out(outputfilename+".bin",std::ios::out | std::ios::binary);
+out<<bitslength<<std::endl;
 
   while (bitstring.size()>8)
   {
@@ -236,7 +237,10 @@ std::ifstream inputstream(bitpackedfile);
 
     std::string bitstring;
     char byte;
-   
+    std::string temp;
+    getline(inputstream,temp);
+   int length = std::stoi(temp);
+   out<<length<<std::endl;
     while (inputstream.get(byte))
     {
       std::bitset<8> bitset(byte);
@@ -265,15 +269,20 @@ std::ifstream inputstream(bitstringfile);
     std::string bitstring;
     char val;
    std::string cur="";
-    while (inputstream.get(val))
-    {
-        cur +=val;
+   std::string temp;
+    getline(inputstream,temp);
+   int length = std::stoi(temp);
+   for (int i = 0; i < length; i++)
+   {
+       inputstream.get(val);
+       cur +=val;
         if (reverse.count(cur))
         {
             out<<reverse[cur];
             cur="";
         }
-    }
+   }
+   
 
     out.close();
 }
@@ -288,6 +297,7 @@ std::ifstream inputstream(bitstringfile);
     remove(OutputFileName.c_str());
     }
 
+    
     //decompress file
     void TLDEDA001::HuffmanTree::Decompress(std::string InputFileName, std::string OutputFileName){
 

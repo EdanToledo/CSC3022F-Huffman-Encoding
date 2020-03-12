@@ -31,11 +31,10 @@ int main(int argc, char *argv[])
     char charac;
     while (inputstream.get(charac))
     {
-        if (charac!='\n')
-        {
+        
              freq[charac] = freq[charac]+1;
         
-        }
+
         
       
     }
@@ -45,8 +44,8 @@ int main(int argc, char *argv[])
     TLDEDA001::HuffmanTree huff;
      
     huff.BuildHuffmanTree(freq);
-   huff.Compress(inputfile,outputfile);
-   huff.Decompress(outputfile+".bin","Decompressed");
+    huff.Compress(inputfile,outputfile);
+    huff.Decompress(outputfile+".bin","Decompressed");
 
     return 0;
 }
