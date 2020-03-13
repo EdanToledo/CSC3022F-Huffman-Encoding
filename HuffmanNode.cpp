@@ -5,7 +5,8 @@
 #include "HuffmanNode.h"
 
 //Default Constructor
-TLDEDA001::HuffmanNode::HuffmanNode() {
+TLDEDA001::HuffmanNode::HuffmanNode()
+{
     this->left = nullptr;
     this->right = nullptr;
 }
