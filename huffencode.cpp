@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     {
       
     huff.BuildHuffmanTree(inputfile);
-    
+   
     huff.Compress(inputfile, outputfile);
 
     }else if((std::string)argv[1]=="-d"){

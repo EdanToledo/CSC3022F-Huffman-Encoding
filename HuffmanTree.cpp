@@ -87,12 +87,6 @@ void TLDEDA001::HuffmanTree::BuildHuffmanTree(std::string inputfile)
         internal->setFreq(left.getFreq() + right.getFreq());
 
         queue.push(*internal);
-
-        /*
-         std::cout<<"left: "<<left.getData()<<" FREQUENCY "<<left.getFreq()<<std::endl;
-        std::cout<<"right: "<<right.getData()<<" FREQUENCY "<<right.getFreq()<<std::endl;
-          std::cout<<"KEY: "<<"internal"<<" FREQUENCY "<<internal->getFreq()<<std::endl;
-       */
     }
 
     auto rootNode = queue.top();
@@ -172,7 +166,7 @@ void TLDEDA001::HuffmanTree::OutputBitStringFile(std::string inputfile, std::str
         bitstring += codeTable[charac];
     }
 
-    std::ofstream out(outputfile+"Bitstring", std::ios::out | std::ios::binary);
+    std::ofstream out(outputfile + "Bitstring", std::ios::out | std::ios::binary);
 
     out.write(bitstring.c_str(), bitstring.size());
     out.close();
@@ -183,7 +177,7 @@ void TLDEDA001::HuffmanTree::OutputBitStringFile(std::string inputfile, std::str
 void TLDEDA001::HuffmanTree::BitpackFile(std::string bitstringfile, std::string outputfilename)
 {
 
-    std::ifstream inputstream(bitstringfile+"Bitstring");
+    std::ifstream inputstream(bitstringfile + "Bitstring");
 
     std::string bitstring;
     char bit;
@@ -226,7 +220,7 @@ void TLDEDA001::HuffmanTree::UnpackFile(std::string bitpackedfile, std::string o
 
     std::ifstream inputstream(bitpackedfile);
 
-    std::ofstream out(outputfilename+"Unpacked", std::ios::out | std::ios::binary);
+    std::ofstream out(outputfilename + "Unpacked", std::ios::out | std::ios::binary);
 
     std::string bitstring;
     char byte;
@@ -247,7 +241,7 @@ void TLDEDA001::HuffmanTree::UnpackFile(std::string bitpackedfile, std::string o
 void TLDEDA001::HuffmanTree::Decode(std::string bitstringfile, std::string outputfile, std::unordered_map<std::string, char> reverse)
 {
 
-    std::ifstream inputstream(bitstringfile+"Unpacked");
+    std::ifstream inputstream(bitstringfile + "Unpacked");
 
     std::ofstream out(outputfile);
 
@@ -280,18 +274,16 @@ void TLDEDA001::HuffmanTree::Compress(std::string InputFileName, std::string Out
     outputHeader(OutputFileName);
     OutputBitStringFile(InputFileName, OutputFileName);
     BitpackFile(OutputFileName, OutputFileName);
-    remove((OutputFileName+"Bitstring").c_str());
+    remove((OutputFileName + "Bitstring").c_str());
 }
 
 //decompress file -
 void TLDEDA001::HuffmanTree::Decompress(std::string InputFileName, std::string OutputFileName, std::string HeaderFile)
 {
 
-   
-
     UnpackFile(InputFileName, OutputFileName);
     Decode(OutputFileName, OutputFileName, BuildHeaderTable(HeaderFile));
-    remove((OutputFileName+"Unpacked").c_str());
+    remove((OutputFileName + "Unpacked").c_str());
 }
 
 //builds the frequency table of chars from an input file
@@ -312,12 +304,12 @@ std::unordered_map<char, int> TLDEDA001::HuffmanTree::BuildFrequencyTable(std::s
 }
 
 //returns a hashmap of bit prefix and the char from the header file
-std::unordered_map<std::string, char> TLDEDA001::HuffmanTree::BuildHeaderTable(std::string inputfile){
- 
- std::unordered_map<std::string, char> reverse;
+std::unordered_map<std::string, char> TLDEDA001::HuffmanTree::BuildHeaderTable(std::string inputfile)
+{
+
+    std::unordered_map<std::string, char> reverse;
 
     std::ifstream inputstream(inputfile);
-    char charac;
 
     std::string temp;
     std::getline(inputstream, temp);
@@ -338,5 +330,10 @@ std::unordered_map<std::string, char> TLDEDA001::HuffmanTree::BuildHeaderTable(s
         }
     }
 
-return reverse;
+    return reverse;
+}
+
+//Return Code Table
+std::unordered_map<char, std::string> TLDEDA001::HuffmanTree::getCodeTable() {
+    return this->codeTable;
 }

@@ -48,6 +48,10 @@ public:
     //returns a hashmap of bit prefix and the char from the header file
     std::unordered_map<std::string, char> BuildHeaderTable(std::string inputfile);
 
+    //Return Code Table
+    std::unordered_map<char, std::string> getCodeTable();
+
+
     //Build Tree method
     void BuildHuffmanTree(std::string inputfile);
 

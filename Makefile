@@ -25,12 +25,9 @@ $(PREFILE2).o: $(PREFILE2).h
 clean:
 	rm -f *.o
 	rm -f $(PROGRAM_Driver)
+	rm -f $(TEST_DRIVER)
 
 test:
-	$(TEST_DRIVER): $(TEST_DRIVER).o
-		$(CC) $(FLAGS) $(LINK) $(TEST_DRIVER) $(TEST_DRIVER).o $(PREFILE1).o $(PREFILE2).o
-
-	$(TEST_DRIVER).o: $(PREFILE1).o $(PREFILE1).h $(PREFILE2).o $(PREFILE2).h
-		$(CC) $(FLAGS) $(COMPILE) $(TEST_DRIVER).o $(TEST_DRIVER).cpp
-
+	$(CC) $(FLAGS) $(COMPILE) $(TEST_DRIVER).o $(TEST_DRIVER).cpp
+	$(CC) $(FLAGS) $(LINK) $(TEST_DRIVER) $(TEST_DRIVER).o $(PREFILE1).o $(PREFILE2).o
 	@./UnitTests
